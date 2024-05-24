@@ -1,0 +1,53 @@
+main{
+    height: 100vh;
+    display: flex;
+}
+
+.content_div_detalles{
+    width: 70%;
+    margin: auto;
+    display: flex;
+    height: 80%;
+    border: 1px solid rgba(185, 185, 185, 0.192);
+    border-radius: 12px;
+}
+.content_left{
+    width: 80%;
+    border-right: 1px solid rgba(138, 138, 138, 0.651);
+    padding: 15px;
+}
+
+.left_img{
+    text-align: center;
+    margin: 100px 100px;
+}
+
+.content_right{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+.content_right h3{
+    font-weight: bold;
+}
+
+.cantidad_vendida{
+    font-size: 12px;
+}
+
+.precio{
+    font-weight: 600;
+    font-size: 24px;
+}
+
+button{
+    width: 200px;
+    height: 50px;
+    background-color: rgba(0, 0, 255, 0.055);
+    border-color: rgba(0, 0, 141, 0.63);
+    color: rgba(0, 0, 141, 0.63);
+    font-size: 16px;
+    border-radius: 5px;
+}
