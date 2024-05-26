@@ -2,12 +2,14 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import FuncionesApi from '../services/FuncionesApi';
 import Pedido from '../entities/Pedido';
 import PedidoDetalle from '../entities/PedidoDetalle';
+import { useNavigate } from 'react-router-dom';
 
 export const realizarCompra = createAsyncThunk(
     'compra/realizarCompra',
     async ({ pedido, detallesPedido }: { pedido: Pedido, detallesPedido: PedidoDetalle[] }) => {
       console.log("PEDIDO:", pedido);
       const pedidoCreado = await FuncionesApi.createPedido(pedido);
+      
       const detallesConPedidoId = detallesPedido.map(detalle => ({
         ...detalle,
         pedido: { ...detalle.pedido, id: pedidoCreado.id }
@@ -16,8 +18,9 @@ export const realizarCompra = createAsyncThunk(
         console.log("Detalle:", detalle);
         return FuncionesApi.createPedidoDetalle(detalle);
       });
-  
+      console.log(pedidoCreado.id)
       await Promise.all(promises);
+      return pedidoCreado;
     }
   );
   
