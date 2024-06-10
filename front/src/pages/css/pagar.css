@@ -1,0 +1,14 @@
+.divVisible{
+    visibility:visible;
+}
+
+.divInvisible{
+    visibility: hidden;
+}
+
+.pagar_content{
+    width: 500px;
+    text-align: center;
+    margin: auto;
+    margin-top: 50px;
+}

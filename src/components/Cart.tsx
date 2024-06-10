@@ -6,15 +6,16 @@ import { realizarCompra } from '../redux/compraSlice';
 import Pedido from '../entities/Pedido';
 import PedidoDetalle from '../entities/PedidoDetalle';
 import { useNavigate } from 'react-router-dom';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { Badge, IconButton, Menu, MenuItem, Typography, Button, List, ListItem, ListItemText, Divider } from '@mui/material';
+
+import { Button, Modal, Badge, ListGroup } from 'react-bootstrap';
+import { Cart as CartIcon } from 'react-bootstrap-icons';
 
 const Cart: React.FC = () => {
   const cart = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [show, setShow] = useState(false);
 
   const handleRealizarCompra = async () => {
     try {
@@ -43,52 +44,47 @@ const Cart: React.FC = () => {
     }
   };
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
     <div>
-      <IconButton color="inherit" onClick={handleClick}>
-        <Badge badgeContent={cart.items.length} color="secondary">
-          <ShoppingCartIcon />
+      <Button variant="link" onClick={handleShow} style={{ position: 'relative', color: 'inherit' }}>
+        <Badge bg="secondary" pill style={{ position: 'absolute', right:70 }}>
+          {cart.items.length}
         </Badge>
-      </IconButton>
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem disabled>
-          <Typography variant="h6">Carrito de Compras</Typography>
-        </MenuItem>
-        <Divider />
-        {cart.items.length === 0 ? (
-          <MenuItem>No hay productos en el carrito.</MenuItem>
-        ) : (
-          <List>
-            {cart.items.map(item => (
-              <ListItem key={item.instrumento.id}>
-                <ListItemText
-                  primary={`${item.instrumento.instrumento} - ${item.quantity} x $${item.instrumento.precio}`}
-                />
-                <Button onClick={() => dispatch(removeItemFromCart(item.instrumento.id))}>Eliminar</Button>
-              </ListItem>
-            ))}
-            <Divider />
-            <ListItem>
-              <Typography variant="body1">Total: ${cart.totalAmount.toFixed(2)}</Typography>
-            </ListItem>
-            <ListItem>
-              <Button variant="contained" color="primary" onClick={handleRealizarCompra}>Generar Pedido</Button>
-            </ListItem>
-          </List>
-        )}
-      </Menu>
+        <CartIcon size={24} />
+      </Button>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Carrito de Compras</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {cart.items.length === 0 ? (
+            <p>No hay productos en el carrito.</p>
+          ) : (
+            <ListGroup>
+              {cart.items.map(item => (
+                <ListGroup.Item key={item.instrumento.id} className="d-flex justify-content-between align-items-center">
+                  <span>{`${item.instrumento.instrumento} - ${item.quantity} x $${item.instrumento.precio}`}</span>
+                  <Button variant="danger" size="sm" onClick={() => dispatch(removeItemFromCart(item.instrumento.id))}>
+                    Eliminar
+                  </Button>
+                </ListGroup.Item>
+              ))}
+              <ListGroup.Item>
+                <strong>Total: ${cart.totalAmount.toFixed(2)}</strong>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Button variant="primary" onClick={handleRealizarCompra} className="w-100">
+                  Generar Pedido
+                </Button>
+              </ListGroup.Item>
+            </ListGroup>
+          )}
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

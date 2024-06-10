@@ -5,6 +5,7 @@ import Instrumento from '../entities/Instrumento';
 import { Button } from 'react-bootstrap';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import './css/grilla.css'
+import ReporteExcel from '../components/ReporteExcel';
 
 const Grilla = () => {
     const navigate = useNavigate();
@@ -39,9 +40,14 @@ const Grilla = () => {
         navigate(`/grilla/${filtro}`);
     }
 
+    const generarExcel = () => {
+      window.open("http://localhost:9000/api/instrumentos/downloadExcelInstrumentos", "_blank");
+    }
     
   return (
     <>
+    <a className="btn btn-success" onClick={(e) => generarExcel()}>Generar Excel</a>
+          <ReporteExcel/>
         <div id='grilla-top-0'>
           <div id="grilla-top">
             <Link id='link-grilla' to={'/formulario/'}>Agregar nuevo</Link>

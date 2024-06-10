@@ -2,6 +2,8 @@ import Categoria from "../entities/Categoria";
 import Instrumento from "../entities/Instrumento";
 import Pedido from "../entities/Pedido";
 import PedidoDetalle from "../entities/PedidoDetalle";
+import Usuario from "../entities/Usuario";
+import PreferenceMP from "../entities/mercadopago/PreferenceMP";
 
 const BASE_URL = "http://localhost:9000/api/";
 
@@ -92,11 +94,28 @@ export const FuncionesApi={
         });
         const data=await response.json();
         return data;
-	}
+	},
 
-   
+    getAllUsuarios:async ():Promise<Usuario[]>=>{
+		const response = await fetch(`${BASE_URL}`+'usuarios')
+		const data =await response.json();
+		return data;
+	},
+
 
 	
 }
 
 export default FuncionesApi;
+export async function createPreferenceMP(pedido?:Pedido){
+    let urlServer = 'http://localhost:9000/api/pedidos/create_preference_mp';
+	let method:string = "POST";
+    const response = await fetch(urlServer, {
+	  "method": method,
+	  "body": JSON.stringify(pedido),
+	  "headers": {
+		"Content-Type": 'application/json'
+	  }
+	});
+    return await response.json() as PreferenceMP;   
+}  

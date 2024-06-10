@@ -3,3 +3,18 @@
     color: black;
     margin: 0 10px;
 }
+
+#header_right{
+    display: flex;
+   
+}
+
+#login_section{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#user_div{
+    margin-right: 10px;
+}

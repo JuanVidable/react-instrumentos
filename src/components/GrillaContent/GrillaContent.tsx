@@ -15,8 +15,12 @@ const GrillaContent = ({ titulo = '', id=0, categoria=''}) => {
       window.location.reload();
   }
 
+  
+  
+
   return (
     <>
+    
       <div className="content_div">
         <div className="detalles_div" id="grilla_container">
           <h3>{titulo}</h3>

@@ -2,6 +2,7 @@ import Categoria from "../entities/Categoria";
 import Instrumento from "../entities/Instrumento";
 import Pedido from "../entities/Pedido";
 import PedidoDetalle from "../entities/PedidoDetalle";
+import Usuario from "../entities/Usuario";
 import PreferenceMP from "../entities/mercadopago/PreferenceMP";
 
 const BASE_URL = "http://localhost:9000/api/";
@@ -95,6 +96,24 @@ export const FuncionesApi={
         return data;
 	},
 
+    getAllUsuarios:async ():Promise<Usuario[]>=>{
+		const response = await fetch(`${BASE_URL}`+'usuarios')
+		const data =await response.json();
+		return data;
+	},
+
+
+    getDatosLine:async ():Promise<Object[]>=>{
+        const response=await fetch(`${BASE_URL}`+'pedidos/cantidad-por-mes')
+        const data = response.json();
+        return data;
+    },
+
+    getDatosPie:async ():Promise<Object[]>=>{
+        const response=await fetch(`${BASE_URL}`+'detalles/cantidad-por-instrumento')
+        const data = response.json();
+        return data;
+    }
 
 	
 }

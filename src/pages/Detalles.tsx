@@ -5,12 +5,15 @@ import FuncionesApi from '../services/FuncionesApi';
 import './css/detalles.css'
 import { useDispatch } from 'react-redux';
 import { addItemToCart } from '../redux/carritoSlice';
+import Usuario from '../entities/Usuario';
 
 
 const Detalles = () => {
   const { id } = useParams();
   const [instrumento, setInstrumento] = useState<Instrumento>();
   const dispatch = useDispatch();
+  const [jsonUsuario, setJsonUsuario] = useState<any>(localStorage.getItem('usuario'))
+    const usuarioLogueado:Usuario = JSON.parse(jsonUsuario) as Usuario; 
 
   useEffect(() => {
     const obtenerInstrumentos = async () => {
@@ -42,7 +45,18 @@ const Detalles = () => {
             <p className='precio'>${instrumento?.precio}</p>
             <p>Marca: {instrumento?.marca}<br/>Modelo: {instrumento?.modelo}</p>
             {instrumento?.costoEnvio === "G" ? <p style={{color: "green"}}>Envío gratis</p> : <p style={{color: "orange"}}>Costo de envío: ${instrumento?.costoEnvio }</p>}
-            <button onClick={() => instrumento && dispatch(addItemToCart(instrumento))}>Agregar al carrito</button>
+
+            {
+                (usuarioLogueado)?
+                <div>
+                     <button onClick={() => instrumento && dispatch(addItemToCart(instrumento))}>Agregar al carrito</button>
+                </div>
+                :
+                <div>
+                  Debés iniciar sesión para comprar
+                </div>
+            }
+           
           </div>
         </div>
       </main>
